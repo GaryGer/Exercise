@@ -49,7 +49,6 @@ class ListViewController: UIViewController,ListViewInput {
     private func configRefreshHeader(){
         refresh_header.setRefreshingTarget(self, refreshingAction: #selector(refreshLoadData))
         contentTableView.mj_header = refresh_header
-        contentTableView.mj_header.beginRefreshing()
     }
     
     @objc private func refreshLoadData(){
@@ -61,7 +60,7 @@ class ListViewController: UIViewController,ListViewInput {
         let repos = ListViewRepository(api: api)
         let useCases = ListViewUseCase(repo: repos)
         viewOutput = ListViewPresenter(useCase: useCases, viewInput: self)
-        
+        viewOutput?.getListViewData()
     }
     
     func setListViewData(listModel:ListViewModel?){

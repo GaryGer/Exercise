@@ -15,21 +15,31 @@ class ListViewCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var describtion: UILabel!
+    @IBOutlet weak var imgHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageHrefView: UIImageView!
-    
+    fileprivate lazy var kingFisherManager:KingfisherManager = {
+        let manager = KingfisherManager.shared
+        return manager
+    }()
+    fileprivate var exsiteImage:Bool = false
     weak var cellModel:ListViewRowModel? {
         willSet(newValue){
+           let image = kingFisherManager.cache.retrieveImageInDiskCache(forKey: (newValue?.imageHref ?? ""))
             
+            if image != nil {
+                imgHeightConstraint.constant = ((image?.size.height ?? 0)/(image?.size.width ?? 1)) * imageHrefView.frame.width
+            }else if image == nil && newValue?.imageHref != nil {
+                imgHeightConstraint.constant = (ScreenWidth - 25)/2
+            }else{
+                imgHeightConstraint.constant = 0
+            }
+            self.imageHrefView.layoutIfNeeded()
         }
-        
         didSet{
             title.text = cellModel?.title
             describtion.text = cellModel?.description
-            
-            imageHrefView.kf.setImage(with: URL(string: (cellModel?.imageHref) ?? "default"), placeholder: UIImage(named: "default")) { (image, _, _, _) in
-                //获取下载图片的宽高等
-                // TO DO...
-            }
+            imageHrefView.kf.setImage(with: URL(string: (cellModel?.imageHref) ?? "default"), placeholder: UIImage(named: "default"))
+            imageHrefView.isHidden = (cellModel?.imageHref == nil)
         }
     }
     override func awakeFromNib() {
@@ -44,9 +54,4 @@ class ListViewCell: UITableViewCell {
     }
     
 }
-
-extension UIImageView {
-    
-}
-
 

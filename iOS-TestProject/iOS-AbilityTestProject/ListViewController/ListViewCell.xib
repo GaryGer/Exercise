@@ -53,9 +53,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="describtion" destination="szI-uO-Wng" id="NcT-56-jU5"/>
-                <outlet property="describtionLableWidth" destination="QCZ-nx-FYP" id="xU4-yc-6z2"/>
                 <outlet property="imageHrefView" destination="3oz-rg-dO6" id="IVb-uB-uF9"/>
-                <outlet property="imageViewHeight" destination="HqV-Db-TLg" id="oge-3u-8KM"/>
                 <outlet property="title" destination="KJe-ob-tdI" id="uly-Gh-cEH"/>
             </connections>
             <point key="canvasLocation" x="-60" y="-93"/>
